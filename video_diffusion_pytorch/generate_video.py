@@ -17,7 +17,7 @@ diffusion = GaussianDiffusion(
 )
 
 # video (batch, channels, frames, height, width)
-videos = torch.randn(3, 3, 5, 32, 32)
+videos = torch.randn(3, 3, 25, 32, 32)
 
 text = [
     'a whale breaching from afar',
@@ -30,7 +30,7 @@ loss.backward()
 # after a lot of training
 
 sampled_videos = diffusion.sample(cond=text, cond_scale=2)
-sampled_videos.shape  # (3, 3, 5, 32, 32)
+sampled_videos.shape  # (3, 3, 25, 32, 32)
 
 for i, video in enumerate(sampled_videos):
     video_tensor_to_gif(video, f'sampled_video_{i}.gif')

@@ -1,5 +1,5 @@
 import torch
-from video_diffusion_pytorch import Unet3D, GaussianDiffusion
+from video_diffusion_pytorch import Unet3D, GaussianDiffusion, video_tensor_to_gif
 
 model = Unet3D(
     dim=64,
@@ -11,7 +11,7 @@ model = Unet3D(
 diffusion = GaussianDiffusion(
     model,
     image_size=32,    # height and width of frames
-    num_frames=5,     # number of video frames
+    num_frames=25,     # number of video frames
     timesteps=1000,   # number of steps
     loss_type='l1'    # L1 or L2
 )
@@ -31,3 +31,6 @@ loss.backward()
 
 sampled_videos = diffusion.sample(cond=text, cond_scale=2)
 sampled_videos.shape  # (3, 3, 5, 32, 32)
+
+for i, video in enumerate(sampled_videos):
+    video_tensor_to_gif(video, f'sampled_video_{i}.gif')

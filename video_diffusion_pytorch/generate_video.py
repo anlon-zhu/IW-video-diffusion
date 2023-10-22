@@ -20,9 +20,9 @@ diffusion = GaussianDiffusion(
 videos = torch.randn(3, 3, 25, 32, 32)
 
 text = [
-    'a whale breaching from afar',
-    'young girl blowing out candles on her birthday cake',
-    'fireworks with blue and green sparkles'
+    'car driving through a tunnel',
+    'car driving on the road',
+    'car driving through the forest'
 ]
 
 loss = diffusion(videos, cond=text)

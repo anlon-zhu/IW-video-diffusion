@@ -1,11 +1,13 @@
 import torch
 from video_diffusion_pytorch import Unet3D, GaussianDiffusion, Trainer
 
+print("Loading Unet3D")
 model = Unet3D(
     dim=64,
     dim_mults=(1, 2, 4, 8),
 )
 
+print("Loading GaussianDiffusion")
 diffusion = GaussianDiffusion(
     model,
     image_size=64,
@@ -14,6 +16,7 @@ diffusion = GaussianDiffusion(
     loss_type='l1'    # L1 or L2
 ).cuda()
 
+print("Loading Trainer")
 trainer = Trainer(
     diffusion,
     './data',                         # this folder path needs to contain all your training data, as .gif files, of correct image size and number of frames

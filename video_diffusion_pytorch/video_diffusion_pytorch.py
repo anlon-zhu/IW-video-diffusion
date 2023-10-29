@@ -1097,7 +1097,7 @@ class Trainer(object):
 
         print(f'Number of training steps: {self.train_num_steps}')
         while self.step < self.train_num_steps:
-            for i in range(self.gradient_accumulate_every):
+            for i in tqdm(range(self.gradient_accumulate_every)):
                 data = next(self.dl).cuda()
 
                 with autocast(enabled=self.amp):

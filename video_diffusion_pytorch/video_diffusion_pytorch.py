@@ -993,6 +993,7 @@ class Trainer(object):
         diffusion_model,
         folder,
         *,
+        ds=None,
         ema_decay=0.995,
         num_frames=16,
         train_batch_size=32,
@@ -1025,9 +1026,12 @@ class Trainer(object):
         channels = diffusion_model.channels
         num_frames = diffusion_model.num_frames
 
-        self.ds = Dataset(
-            folder, image_size, channels=channels,
-            num_frames=num_frames)
+        if ds:
+            self.ds = ds
+        else:
+            self.ds = Dataset(
+                folder, image_size, channels=channels,
+                num_frames=num_frames)
 
         print(f'found {len(self.ds)} videos as gif files at {folder}')
         assert len(

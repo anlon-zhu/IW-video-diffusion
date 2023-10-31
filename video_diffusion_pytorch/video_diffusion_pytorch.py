@@ -869,6 +869,7 @@ class GaussianDiffusion(nn.Module):
         return loss
 
     def forward(self, x, *args, **kwargs):
+        breakpoint()
         b, device, img_size, = x.shape[0], x.device, self.image_size
         check_shape(x, 'b c f h w', c=self.channels,
                     f=self.num_frames, h=img_size, w=img_size)

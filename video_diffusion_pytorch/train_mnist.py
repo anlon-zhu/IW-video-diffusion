@@ -45,6 +45,7 @@ model = Unet3D(
 print("Loading GaussianDiffusion...")
 diffusion = GaussianDiffusion(
     model,
+    channels=1,
     image_size=64,
     num_frames=20,
     timesteps=1000,   # number of steps
@@ -53,7 +54,6 @@ diffusion = GaussianDiffusion(
 
 print("Loading Trainer...")
 transform = transform = transforms.Compose([
-    transforms.Grayscale(num_output_channels=3),  # Convert to RGB
     transforms.Resize((64, 64))])
 
 trainer = Trainer(

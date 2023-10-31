@@ -8,9 +8,12 @@ class MnistCond(Dataset):
     def __init__(self) -> None:
         super().__init__()
         self.transform = transforms.Compose([
+            transforms.ToPILImage(),  # Convert to PIL Image
             transforms.ToTensor(),
+            transforms.Grayscale(num_output_channels=3),
             transforms.Resize(64),
         ])
+
         self.mnist = datasets.moving_mnist.MovingMNIST(
             root="data/", download=True)
 

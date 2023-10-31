@@ -878,7 +878,6 @@ class GaussianDiffusion(nn.Module):
         t = torch.randint(
             0, self.num_timesteps, (b,),
             device=device).long()
-        breakpoint()
         x = normalize_img(x)
         return self.p_losses(x, t, *args, **kwargs)
 

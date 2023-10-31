@@ -1104,7 +1104,7 @@ class Trainer(object):
         assert callable(log_fn)
 
         print(f'Number of training steps: {self.train_num_steps}')
-        for _ in range(self.train_num_steps):
+        for _ in tqdm(range(self.train_num_steps)):
             for i in range(self.gradient_accumulate_every):
                 data = next(self.dl).cuda()
 

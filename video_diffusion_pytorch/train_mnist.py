@@ -18,12 +18,13 @@ class MnistCond(Dataset):
         return len(self.mnist)
 
     def __getitem__(self, i):
-        return self.mnist.__getitem__(i)
-        # img, label = self.mnist[i]
-        # img = img.repeat(3, 1, 1)
-        # hot_label = torch.zeros(10)
-        # hot_label[label] = 1
-        # return img, hot_label.unsqueeze(0)
+        img, label = self.mnist[i]
+        # Repeat the single channel to create a 3-channel image
+        img = img.repeat(3, 1, 1)
+        img = self.transform(img)
+        hot_label = torch.zeros(10)
+        hot_label[label] = 1
+        return img, hot_label.unsqueeze(0)
 
 
 def video_tensor_to_gif(

@@ -4,8 +4,7 @@ from torchvision import transforms as T, utils
 import tensorflow_datasets as tfds
 import tensorflow as tf
 
-ds = tfds.load('moving_mnist', split='test',
-               as_supervised=True, shuffle_files=True)
+ds = tfds.load('moving_mnist', split='test', shuffle_files=True)
 
 
 def video_tensor_to_gif(

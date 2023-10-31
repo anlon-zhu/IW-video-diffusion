@@ -847,7 +847,10 @@ class GaussianDiffusion(nn.Module):
 
     def p_losses(self, x_start, t, cond=None, noise=None, **kwargs):
         b, c, f, h, w, device = *x_start.shape, x_start.device
-        noise = default(noise, lambda: torch.randn_like(x_start))
+        # noise = default(noise, lambda: torch.randn_like(x_start))
+        noise = default(
+            noise, lambda: torch.randn_like(
+                x_start.to(torch.float32)))
 
         x_noisy = self.q_sample(x_start=x_start, t=t, noise=noise)
 
@@ -875,6 +878,7 @@ class GaussianDiffusion(nn.Module):
         t = torch.randint(
             0, self.num_timesteps, (b,),
             device=device).long()
+        breakpoint()
         x = normalize_img(x)
         return self.p_losses(x, t, *args, **kwargs)
 

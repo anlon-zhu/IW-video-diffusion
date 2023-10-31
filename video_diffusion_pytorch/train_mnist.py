@@ -37,6 +37,7 @@ print("Loading Unet3D...")
 model = Unet3D(
     dim=64,
     dim_mults=(1, 2, 4, 8),
+    channels=1,
 )
 
 print("Loading GaussianDiffusion...")

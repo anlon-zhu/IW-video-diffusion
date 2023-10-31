@@ -871,7 +871,7 @@ class GaussianDiffusion(nn.Module):
     def forward(self, x, *args, **kwargs):
         breakpoint()
         b, device, img_size, = x.shape[0], x.device, self.image_size
-        check_shape(x, 'b f c h w', c=self.channels,
+        check_shape(x, 'b c f h w', c=self.channels,
                     f=self.num_frames, h=img_size, w=img_size)
         t = torch.randint(
             0, self.num_timesteps, (b,),

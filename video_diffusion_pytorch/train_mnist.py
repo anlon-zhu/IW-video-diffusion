@@ -19,12 +19,12 @@ class MnistCond(Dataset):
 
     def __getitem__(self, i):
         # Get the original data
-        data, target = self.mnist.__getitem__(i)
+        data = self.mnist.__getitem__(i)
 
         # Apply the transformation to adjust the number of channels
         data = self.transform(data)
 
-        return data, target
+        return data
 
 
 def video_tensor_to_gif(

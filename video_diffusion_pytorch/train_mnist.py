@@ -4,7 +4,7 @@ from torchvision import transforms as T, utils
 import tensorflow_datasets as tfds
 import tensorflow as tf
 
-ds = tfds.load('moving_mnist', split='train',
+ds = tfds.load('moving_mnist', split='test',
                as_supervised=True, shuffle_files=True)
 
 
@@ -18,11 +18,13 @@ def video_tensor_to_gif(
     return images
 
 
+print("Loading Unet3D...")
 model = Unet3D(
     dim=64,
     dim_mults=(1, 2, 4, 8),
 )
 
+print("Loading GaussianDiffusion...")
 diffusion = GaussianDiffusion(
     model,
     image_size=64,
@@ -31,6 +33,7 @@ diffusion = GaussianDiffusion(
     loss_type='l1'    # L1 or L2
 ).cuda()
 
+print("Loading Trainer...")
 trainer = Trainer(
     diffusion,
     './data',                         # this folder path needs to contain all your training data, as .gif files, of correct image size and number of frames
@@ -44,9 +47,10 @@ trainer = Trainer(
     amp=True                        # turn on mixed precision
 )
 
-
+print("Training...")
 trainer.train()
 
+print("Sampling...")
 sampled_videos = diffusion.sample(batch_size=4)
 u_sampled_videos = sampled_videos.unbind(dim=1)
 for i in range(len(u_sampled_videos)):

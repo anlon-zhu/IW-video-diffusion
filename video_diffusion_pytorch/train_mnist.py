@@ -46,6 +46,7 @@ print("Loading GaussianDiffusion...")
 diffusion = GaussianDiffusion(
     model,
     image_size=64,
+    channels=1,
     num_frames=20,
     timesteps=1000,   # number of steps
     loss_type='l1'    # L1 or L2

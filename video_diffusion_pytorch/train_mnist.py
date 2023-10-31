@@ -53,6 +53,7 @@ diffusion = GaussianDiffusion(
 
 print("Loading Trainer...")
 transform = transform = transforms.Compose([
+    transforms.Grayscale(num_output_channels=3),  # Convert to RGB
     transforms.Resize((64, 64))])
 
 trainer = Trainer(

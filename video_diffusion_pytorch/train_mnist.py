@@ -46,23 +46,22 @@ print("Loading GaussianDiffusion...")
 diffusion = GaussianDiffusion(
     model,
     image_size=64,
-    channels=1,
     num_frames=20,
     timesteps=1000,   # number of steps
     loss_type='l1'    # L1 or L2
 ).cuda()
 
 print("Loading Trainer...")
-transform = transforms.Compose(
-    [transforms.Resize(64), transforms.CenterCrop(
-        64),
-     transforms.ToTensor()])
+transform = transform = transforms.Compose([
+    transforms.Resize((64, 64)),
+    transforms.ToTensor(),
+])
 
 trainer = Trainer(
     diffusion,
     './data',                         # this folder path needs to contain all your training data, as .gif files, of correct image size and number of frames
     ds=datasets.moving_mnist.MovingMNIST(
-        root="data/", download=True),
+        root="data/", download=True, transform=transform),
     train_batch_size=1,
     train_lr=1e-4,
     save_and_sample_every=1000,

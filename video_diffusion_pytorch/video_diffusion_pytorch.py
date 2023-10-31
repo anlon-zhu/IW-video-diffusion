@@ -847,9 +847,7 @@ class GaussianDiffusion(nn.Module):
 
     def p_losses(self, x_start, t, cond=None, noise=None, **kwargs):
         b, c, f, h, w, device = *x_start.shape, x_start.device
-        noise = default(noise, lambda: torch.randn_like(
-            x_start.float()))
-        # noise = default(noise, lambda: torch.randn_like(x_start))
+        noise = default(noise, lambda: torch.randn_like(x_start))
 
         x_noisy = self.q_sample(x_start=x_start, t=t, noise=noise)
 
@@ -872,7 +870,7 @@ class GaussianDiffusion(nn.Module):
 
     def forward(self, x, *args, **kwargs):
         b, device, img_size, = x.shape[0], x.device, self.image_size
-        check_shape(x, 'b f c h w', c=self.channels,
+        check_shape(x, 'b c f h w', c=self.channels,
                     f=self.num_frames, h=img_size, w=img_size)
         t = torch.randint(
             0, self.num_timesteps, (b,),
@@ -1105,6 +1103,7 @@ class Trainer(object):
         print(f'Number of training steps: {self.train_num_steps}')
         for _ in tqdm(range(self.train_num_steps)):
             for i in range(self.gradient_accumulate_every):
+                breakpoint()
                 data = next(self.dl).cuda()
 
                 with autocast(enabled=self.amp):

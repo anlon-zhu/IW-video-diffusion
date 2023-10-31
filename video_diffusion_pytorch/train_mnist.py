@@ -61,7 +61,7 @@ trainer = Trainer(
     diffusion,
     './data',                         # this folder path needs to contain all your training data, as .gif files, of correct image size and number of frames
     ds=datasets.moving_mnist.MovingMNIST(
-        root="data/", download=True, transform=transform),
+        root="data/", download=True),
     train_batch_size=1,
     train_lr=1e-4,
     save_and_sample_every=1000,

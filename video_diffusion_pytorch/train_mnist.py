@@ -1,15 +1,34 @@
 import torch
 from video_diffusion_pytorch import Unet3D, GaussianDiffusion, Trainer
-from torchvision import transforms as T, utils
-import tensorflow_datasets as tfds
-import tensorflow as tf
+from torchvision import transforms, datasets
+from torch.utils.data import Dataset, DataLoader
 
-ds = tfds.load('moving_mnist', split='test', shuffle_files=True)
+
+class MnistCond(Dataset):
+    def __init__(self) -> None:
+        super().__init__()
+        self.transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Resize(64),
+        ])
+        self.mnist = datasets.moving_mnist.MovingMNIST(
+            root="data/", download=True)
+
+    def __len__(self):
+        return len(self.mnist)
+
+    def __getitem__(self, i):
+        return self.mnist.__getitem__(i)
+        # img, label = self.mnist[i]
+        # img = img.repeat(3, 1, 1)
+        # hot_label = torch.zeros(10)
+        # hot_label[label] = 1
+        # return img, hot_label.unsqueeze(0)
 
 
 def video_tensor_to_gif(
         tensor, path, duration=120, loop=0, optimize=True):
-    images = map(T.ToPILImage(), tensor.unbind(dim=1))
+    images = map(transforms.ToPILImage(), tensor.unbind(dim=1))
     first_img, *rest_imgs = images
     first_img.save(
         path, save_all=True, append_images=rest_imgs, duration=duration,
@@ -36,7 +55,7 @@ print("Loading Trainer...")
 trainer = Trainer(
     diffusion,
     './data',                         # this folder path needs to contain all your training data, as .gif files, of correct image size and number of frames
-    ds=ds,
+    ds=MnistCond(),
     train_batch_size=1,
     train_lr=1e-4,
     save_and_sample_every=1000,

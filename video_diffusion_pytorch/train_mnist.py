@@ -53,10 +53,7 @@ diffusion = GaussianDiffusion(
 
 print("Loading Trainer...")
 transform = transform = transforms.Compose([
-    transforms.ToPILImage(),
-    transforms.Resize((64, 64)),
-    transforms.ToTensor(),
-])
+    transforms.Resize((64, 64))])
 
 trainer = Trainer(
     diffusion,

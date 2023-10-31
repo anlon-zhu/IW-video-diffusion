@@ -8,12 +8,14 @@ import pdb
 class MnistCond(Dataset):
     def __init__(self) -> None:
         super().__init__()
-        self.transform = transforms.Compose([
-            transforms.Resize(64),
-            transforms.ToTensor(),
-        ])
+
+        self.transform = transforms.Compose(
+            [transforms.Resize(64), transforms.CenterCrop(
+                64),
+             transforms.ToTensor()])
+
         self.mnist = datasets.moving_mnist.MovingMNIST(
-            root="data/", download=True)
+            root="data/", download=True, transform=self.transform)
 
     def __len__(self):
         return len(self.mnist)

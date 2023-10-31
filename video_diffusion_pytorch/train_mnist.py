@@ -5,25 +5,25 @@ from torch.utils.data import Dataset, DataLoader
 import pdb
 
 
-class MnistCond(Dataset):
-    def __init__(self) -> None:
-        super().__init__()
+# class MnistCond(Dataset):
+#     def __init__(self) -> None:
+#         super().__init__()
 
-        self.transform = transforms.Compose(
-            [transforms.Resize(64), transforms.CenterCrop(
-                64),
-             transforms.ToTensor()])
+#         self.transform = transforms.Compose(
+#             [transforms.Resize(64), transforms.CenterCrop(
+#                 64),
+#              transforms.ToTensor()])
 
-        self.mnist = datasets.moving_mnist.MovingMNIST(
-            root="data/", download=True, transform=self.transform)
+#         self.mnist = datasets.moving_mnist.MovingMNIST(
+#             root="data/", download=True, transform=self.transform)
 
-    def __len__(self):
-        return len(self.mnist)
+#     def __len__(self):
+#         return len(self.mnist)
 
-    def __getitem__(self, i):
-        # Get the original data
-        data = self.mnist.__getitem__(i)
-        return data
+#     def __getitem__(self, i):
+#         # Get the original data
+#         data = self.mnist.__getitem__(i)
+#         return data
 
 
 def video_tensor_to_gif(
@@ -52,10 +52,16 @@ diffusion = GaussianDiffusion(
 ).cuda()
 
 print("Loading Trainer...")
+transform = transforms.Compose(
+    [transforms.Resize(64), transforms.CenterCrop(
+        64),
+     transforms.ToTensor()])
+
 trainer = Trainer(
     diffusion,
     './data',                         # this folder path needs to contain all your training data, as .gif files, of correct image size and number of frames
-    ds=MnistCond(),
+    ds=datasets.moving_mnist.MovingMNIST(
+        root="data/", download=True, transform=transform),
     train_batch_size=1,
     train_lr=1e-4,
     save_and_sample_every=1000,

@@ -18,11 +18,13 @@ class MnistCond(Dataset):
         return len(self.mnist)
 
     def __getitem__(self, i):
-        img = self.mnist[i]  # Only fetch the video frames
-        # Repeat the single channel to create a 3-channel image
-        img = img.repeat(3, 1, 1)
-        img = self.transform(img)
-        return img
+        # Get the original data
+        data, target = self.mnist.__getitem__(i)
+
+        # Apply the transformation to adjust the number of channels
+        data = self.transform(data)
+
+        return data, target
 
 
 def video_tensor_to_gif(

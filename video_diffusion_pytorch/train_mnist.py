@@ -23,10 +23,6 @@ class MnistCond(Dataset):
     def __getitem__(self, i):
         # Get the original data
         data = self.mnist.__getitem__(i)
-
-        # Apply the transformation to adjust the number of channels
-        data = self.transform(data)
-
         return data
 
 

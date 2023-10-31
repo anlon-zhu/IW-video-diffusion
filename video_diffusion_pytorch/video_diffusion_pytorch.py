@@ -19,6 +19,7 @@ from einops_exts import check_shape, rearrange_many
 from rotary_embedding_torch import RotaryEmbedding
 
 from text import tokenize, bert_embed, BERT_MODEL_DIM
+import pdb
 
 # helpers functions
 
@@ -1102,6 +1103,7 @@ class Trainer(object):
         print(f'Number of training steps: {self.train_num_steps}')
         for _ in tqdm(range(self.train_num_steps)):
             for i in range(self.gradient_accumulate_every):
+                breakpoint()
                 data = next(self.dl).cuda()
 
                 with autocast(enabled=self.amp):

@@ -2,6 +2,7 @@ import torch
 from video_diffusion_pytorch import Unet3D, GaussianDiffusion, Trainer
 from torchvision import transforms, datasets
 from torch.utils.data import Dataset, DataLoader
+import pdb
 
 
 class MnistCond(Dataset):
